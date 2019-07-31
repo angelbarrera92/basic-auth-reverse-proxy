@@ -5,14 +5,22 @@ import (
 	"net/http/httputil"
 	"net/http"
 	"github.com/angelbarrera92/basic-auth-reverse-proxy/proxy"
+	"gopkg.in/urfave/cli.v1"
+	"os"
 )
 
 
-func main() {
+func server() {
 	upstreamURL, _ := url.Parse("https://httpbin.org")
 	reverseProxy := httputil.NewSingleHostReverseProxy(upstreamURL)
 	http.HandleFunc("/", proxy.ReverseProxyHandler(reverseProxy, upstreamURL))
 	if err := http.ListenAndServe(":11811", nil); err != nil {
 		panic(err)
 	}
+}
+
+func main(){
+	app := cli.NewApp()
+	app.Name = "Basic Auth Reverse Proxy"
+	app.Run(os.Args)
 }
