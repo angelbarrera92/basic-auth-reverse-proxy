@@ -1,0 +1,9 @@
+project_name: Basic Auth Reverse Proxy
+before:
+  hooks:
+    - go mod download
+builds:
+- 
+  env:
+    - CGO_ENABLED=0
+    - GO111MODULE=on
