@@ -12,6 +12,12 @@ import (
 	"gopkg.in/urfave/cli.v1"
 )
 
+var (
+	version = "dev"
+	commit  = "none"
+	date    = "unknown"
+)
+
 func serve(c *cli.Context) error {
 	upstream := c.String("upstream")
 	port := c.Int("port")
@@ -41,6 +47,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "Basic Auth Reverse Proxy"
 	app.Usage = "Makes your upstream service secure"
+	app.Version = version
 	app.Author = "Ángel Barrera - @angelbarrera92"
 	app.Commands = []cli.Command{
 		{
