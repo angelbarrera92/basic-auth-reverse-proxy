@@ -11,8 +11,7 @@ addons:
     - snapd
 
 env:
-  - GO111MODULE=on
-  - PATH=/snap/bin:$PATH
+  - GO111MODULE=on PATH=/snap/bin:$PATH
 
 script:
   - go build
