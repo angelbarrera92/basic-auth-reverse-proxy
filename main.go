@@ -1,26 +1,72 @@
 package main
 
 import (
-	"net/url"
-	"net/http/httputil"
+	"fmt"
+	"log"
 	"net/http"
+	"net/http/httputil"
+	"net/url"
+	"os"
+
 	"github.com/angelbarrera92/basic-auth-reverse-proxy/proxy"
 	"gopkg.in/urfave/cli.v1"
-	"os"
 )
 
+func serve(c *cli.Context) error {
+	upstream := c.String("upstream")
+	port := c.Int("port")
+	authConfigPath := c.String("auth-config")
+	realm := c.String("realm")
 
-func server() {
-	upstreamURL, _ := url.Parse("https://httpbin.org")
-	reverseProxy := httputil.NewSingleHostReverseProxy(upstreamURL)
-	http.HandleFunc("/", proxy.ReverseProxyHandler(reverseProxy, upstreamURL))
-	if err := http.ListenAndServe(":11811", nil); err != nil {
-		panic(err)
+	authConfig, err := proxy.ParseConfig(&authConfigPath)
+
+	if err != nil {
+		log.Fatalf("Can not read auth configuration file: %v", err)
+		return err
 	}
+
+	upstreamURL, _ := url.Parse(upstream)
+	reverseProxy := httputil.NewSingleHostReverseProxy(upstreamURL)
+	http.HandleFunc("/", proxy.BasicAuth(proxy.ReverseProxyHandler(reverseProxy, upstreamURL), *authConfig, realm))
+	serveAt := fmt.Sprintf(":%d", port)
+	if err := http.ListenAndServe(serveAt, nil); err != nil {
+		log.Fatalf("Reverse Proxy can not start %v", err)
+		return err
+	}
+
+	return nil
 }
 
-func main(){
+func main() {
 	app := cli.NewApp()
 	app.Name = "Basic Auth Reverse Proxy"
+	app.Usage = "Makes your upstream service secure"
+	app.Author = "Ángel Barrera - @angelbarrera92"
+	app.Commands = []cli.Command{
+		{
+			Name:   "serve",
+			Usage:  "Runs the reverse proxy",
+			Action: serve,
+			Flags: []cli.Flag{
+				cli.IntFlag{
+					Name:  "port",
+					Usage: "Port used to expose this reverse proxy",
+					Value: 11811,
+				}, cli.StringFlag{
+					Name:  "upstream",
+					Usage: "Upstream server. Server that will be protected by this reverse proxy",
+					Value: "https://httpbin.org",
+				}, cli.StringFlag{
+					Name:  "realm",
+					Usage: "Reverse proxy realm",
+					Value: "My Reverse Proxy",
+				}, cli.StringFlag{
+					Name:  "auth-config",
+					Usage: "AuthN yaml configuration file path",
+					Value: "authn.yaml",
+				},
+			},
+		},
+	}
 	app.Run(os.Args)
 }

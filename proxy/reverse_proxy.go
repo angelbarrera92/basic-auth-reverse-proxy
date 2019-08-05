@@ -14,6 +14,7 @@ func modifyRequest(r *http.Request, upstreamURL *url.URL) {
 	r.Host = upstreamURL.Host
 }
 
+// ReverseProxyHandler Handle every proxt request
 func ReverseProxyHandler(reverseProxy *httputil.ReverseProxy, upstreamURL *url.URL) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		modifyRequest(r, upstreamURL)
