@@ -1,4 +1,7 @@
 language: go
+go: 
+ - "1.10.x"
+ - "1.11.x"
 
 addons:
   apt:
@@ -9,16 +12,14 @@ addons:
     - snapd
 
 env:
-# needed for the snap pipe:
-- PATH=/snap/bin:$PATH
-- GO111MODULE=on
-- CGO_ENABLED=0
+  - GO111MODULE=on
+  - PATH=/snap/bin:$PATH
 
 install:
 # needed for the snap pipe:
 - sudo snap install snapcraft --classic
-- go mod download
-- go build
+- GO111MODULE=on go mod download
+- GO111MODULE=on go build
 
 # calls goreleaser
 deploy:
