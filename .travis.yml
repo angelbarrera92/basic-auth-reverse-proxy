@@ -15,12 +15,12 @@ env:
   - PATH=/snap/bin:$PATH
 
 script:
-  - GO111MODULE=on go build
+  - go build
 
 install:
   # needed for the snap pipe:
   - sudo snap install snapcraft --classic
-  - GO111MODULE=on go mod download
+  - go mod download
 
 # calls goreleaser
 deploy:
