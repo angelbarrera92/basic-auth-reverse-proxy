@@ -11,10 +11,14 @@ addons:
 env:
 # needed for the snap pipe:
 - PATH=/snap/bin:$PATH
+- GO111MODULE=on
+- CGO_ENABLED=0
 
 install:
 # needed for the snap pipe:
 - sudo snap install snapcraft --classic
+- go mod download
+- go build
 
 # calls goreleaser
 deploy:
