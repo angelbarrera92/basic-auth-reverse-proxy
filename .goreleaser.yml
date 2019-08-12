@@ -8,5 +8,5 @@ builds:
 dockers:
   - image_templates:
     - angelbarrera92/{{.ProjectName}}:latest
-    - angelbarrera92/{{.ProjectName}}:{{ .Major }}
+    - angelbarrera92/{{.ProjectName}}:v{{ .Major }}
     - angelbarrera92/{{.ProjectName}}:{{ .Tag }}
