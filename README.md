@@ -2,7 +2,7 @@
 
 This project offers a way to securize your backends with a basic golang reverse proxy with basic auth configuration.
 
-![Logo](assets/logo.png | width=75)
+![Logo](assets/logo-small.png)
 
 ## TLDR;
 
