@@ -2,7 +2,11 @@ before:
   hooks:
     - go mod download
 builds:
-- 
-  env:
+- env:
     - CGO_ENABLED=0
     - GO111MODULE=on
+  dockers:
+    - image_templates:
+      - angelbarrera92/{{.ProjectName}}:latest
+      - angelbarrera92/{{.ProjectName}}:{{ .Major }}
+      - angelbarrera92/{{.ProjectName}}:{{ .Tag }}

@@ -10,6 +10,9 @@ addons:
     # needed for the snap pipe:
     - snapd
 
+services:
+  - docker
+
 env:
   - GO111MODULE=on PATH=/snap/bin:$PATH
 
@@ -29,3 +32,8 @@ deploy:
   on:
     tags: true
     condition: $TRAVIS_OS_NAME = linux
+
+after_success:
+  # docker login is required if you want to push docker images.
+  # DOCKER_PASSWORD should be a secret in your .travis.yml configuration.
+  - test -n "${TRAVIS_TAG}" && docker login -u=angelbarrera92 -p="${DOCKER_PASSWORD}"
