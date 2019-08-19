@@ -33,7 +33,7 @@ func serve(c *cli.Context) error {
 
 	upstreamURL, _ := url.Parse(upstream)
 	reverseProxy := httputil.NewSingleHostReverseProxy(upstreamURL)
-	http.HandleFunc("/", proxy.BasicAuth(proxy.ReverseProxyHandler(reverseProxy, upstreamURL), *authConfig, realm))
+	http.HandleFunc("/", proxy.BasicAuth(proxy.ReverseProxyHandler(reverseProxy, upstreamURL, authConfig), *authConfig, realm))
 	serveAt := fmt.Sprintf(":%d", port)
 	if err := http.ListenAndServe(serveAt, nil); err != nil {
 		log.Fatalf("Reverse Proxy can not start %v", err)

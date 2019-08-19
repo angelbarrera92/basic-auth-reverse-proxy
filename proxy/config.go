@@ -15,6 +15,7 @@ type Authn struct {
 type User struct {
 	Username string `yaml:"username"`
 	Password string `yaml:"password"`
+	OrgID    string `yaml:"orgid"`
 }
 
 // ParseConfig read a configuration file in the path `location` and returns an Authn object

@@ -1,5 +1,7 @@
 users:
   - username: Angel
     password: Barrera
+    orgid: tenant-1
   - username: Pepe
     password: Gotera
+    orgid: tenant-2
