@@ -17,6 +17,7 @@ $ cat >> authn.yaml <<EOL
 users:
   - username: Angel
     password: Barrera
+    orgid: tenant-1
 EOL
 $ ./basic-auth-reverse-proxy serve
 ```
