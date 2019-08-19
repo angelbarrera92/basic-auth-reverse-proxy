@@ -35,12 +35,19 @@ func serve(c *cli.Context) error {
 	reverseProxy := httputil.NewSingleHostReverseProxy(upstreamURL)
 	http.HandleFunc("/", proxy.BasicAuth(proxy.ReverseProxyHandler(reverseProxy, upstreamURL, authConfig), *authConfig, realm))
 	serveAt := fmt.Sprintf(":%d", port)
-	if err := http.ListenAndServe(serveAt, nil); err != nil {
+	if err := http.ListenAndServe(serveAt, logRequest(http.DefaultServeMux)); err != nil {
 		log.Fatalf("Reverse Proxy can not start %v", err)
 		return err
 	}
 
 	return nil
+}
+
+func logRequest(handler http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("%s %s %s\n", r.RemoteAddr, r.Method, r.URL)
+		handler.ServeHTTP(w, r)
+	})
 }
 
 func main() {
