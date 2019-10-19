@@ -1,5 +1,7 @@
-users:
-  - username: Angel
-    password: Barrera
-  - username: Pepe
-    password: Gotera
+---
+users: []
+# users:
+#   - username: Angel
+#     password: Barrera
+#   - username: Pepe
+#     password: Gotera
