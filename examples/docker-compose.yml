@@ -1,0 +1,36 @@
+---
+
+version: '2.4'
+
+services:
+  cli_mount:
+    image: barp
+    build: ..
+    command:
+      - serve
+      - '-upstream'
+      - 'http://target:3000'
+      - '-auth-config'
+      - '/authn.yaml'
+    volumes:
+      - './authn.yaml:/authn.yaml:ro'
+    ports:
+      - '127.0.0.1:12380:11811'
+    depends_on:
+      - target
+  env:
+    image: barp
+    build: ..
+    environment:
+      BARP_UPSTREAM: 'http://target:3000'
+      BARP_USERNAME_env: env
+      BARP_PASSWORD_env: env
+    ports:
+      - '127.0.0.1:12381:11811'
+    depends_on:
+      - target
+  target:
+    image: kennship/http-echo
+    environment:
+      PORT: 3000
+      SERVICE_NAME: 'my-app'
