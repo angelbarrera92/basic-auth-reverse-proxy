@@ -1,7 +1,7 @@
 package proxy
 
 import (
-	"io/ioutil"
+	"os"
 
 	"gopkg.in/yaml.v2"
 )
@@ -19,7 +19,7 @@ type User struct {
 
 // ParseConfig read a configuration file in the path `location` and returns an Authn object
 func ParseConfig(location *string) (*Authn, error) {
-	data, err := ioutil.ReadFile(*location)
+	data, err := os.ReadFile(*location)
 	if err != nil {
 		return nil, err
 	}
