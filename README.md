@@ -9,7 +9,7 @@ This project offers a way to securize your backends with a basic golang reverse 
 Expose your services with basic authentication.
 
 ```bash
-$ wget -O basic-auth-reverse-proxy.tar.gz -q https://github.com/angelbarrera92/basic-auth-reverse-proxy/releases/download/v0.1.2/basic-auth-reverse-proxy_0.1.2_linux_amd64.tar.gz
+$ wget -O basic-auth-reverse-proxy.tar.gz -q https://github.com/angelbarrera92/basic-auth-reverse-proxy/releases/download/v0.1.6/basic-auth-reverse-proxy_0.1.6_linux_amd64.tar.gz
 $ tar -zxvf basic-auth-reverse-proxy.tar.gz
 README.md
 basic-auth-reverse-proxy
