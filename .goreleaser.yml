@@ -4,9 +4,18 @@ before:
 builds:
 - env:
     - CGO_ENABLED=0
-    - GO111MODULE=on
+  goos:
+  - linux
+  goarch:
+  - amd64
 dockers:
-  - image_templates:
-    - angelbarrera92/{{.ProjectName}}:latest
-    - angelbarrera92/{{.ProjectName}}:v{{ .Major }}
-    - angelbarrera92/{{.ProjectName}}:{{ .Tag }}
+- image_templates:
+  - 'ghcr.io/angelbarrera92/basic-auth-reverse-proxy:{{ .Tag }}'
+  dockerfile: Dockerfile
+  build_flag_templates:
+  - "--pull"
+  - "--label=org.opencontainers.image.created={{.Date}}"
+  - "--label=org.opencontainers.image.name={{.ProjectName}}"
+  - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+  - "--label=org.opencontainers.image.version={{.Version}}"
+  - "--label=org.opencontainers.image.source={{.GitURL}}"
